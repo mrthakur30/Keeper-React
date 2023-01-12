@@ -1,10 +1,19 @@
 import React from "react";
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import Zoom from '@mui/material/Zoom';
 
 function CreateArea(props) {
+
   const [note, setNote] = React.useState({
     title: "",
     content: ""
   });
+
+  const [isClicked , setIsClicked] = React.useState(false);
+
+  function clicked(){
+        setIsClicked (true);
+  }
 
   function changeHandler(event) {
     const { name, value } = event.target;
@@ -21,22 +30,28 @@ function CreateArea(props) {
 
   return (
     <div>
-      <form>
+        <form className="create-note">
+
+        {isClicked && (
         <input
           name="title"
           onChange={changeHandler}
           value={note.title}
           placeholder="Title"
         />
+        )}
+      
         <textarea
-
+          onClick={clicked}
           name="content"
           onChange={changeHandler}
           value={note.content}
           placeholder="Take a note..."
-          rows="3"
+          rows={isClicked?3:1}
         />
-        <button onClick={onSubmit}>Add</button>
+        <Zoom in={isClicked}>
+        <button onClick={onSubmit}><NoteAddIcon /></button>
+        </Zoom>
       </form>
     </div>
   );
